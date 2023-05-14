@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text
 
 namespace M05_UF3_P3_Frogger
 {
@@ -9,13 +10,15 @@ namespace M05_UF3_P3_Frogger
     {
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
+            Font fuente = new Font(label1.Font.FontFamily, 20);
+            label1.Font = fuente;
+            Console.WindowHeight = (Utils.MAP_HEIGHT)+1;
+            Console.WindowWidth = (Utils.MAP_WIDTH);
+            Console.CursorVisible = true;
 
             // Crear objetos necesarios
             TimeManager.timer.Start();
-
             List<Lane> lineas = new List<Lane>();
-
 
             // Crear carriles con diferentes configuraciones
             List<ConsoleColor> colorsCars = new List<ConsoleColor>(Utils.colorsCars);
@@ -34,7 +37,7 @@ namespace M05_UF3_P3_Frogger
             lineas.Add(new Lane(10, false, ConsoleColor.Black, true, false, 0.1f, Utils.charCars, colorsCars));
             lineas.Add(new Lane(11, false, ConsoleColor.Black, true, false, 0.1f, Utils.charCars, colorsCars));
             lineas.Add(new Lane(12, false, ConsoleColor.DarkGreen, false, false, 0f, Utils.charCars, colorsCars));
-            lineas.Add(new Lane(13, false, ConsoleColor.Black, false, false, 0f, Utils.charCars, colorsLogs));
+            /*lineas.Add(new Lane(13, false, ConsoleColor.Black, false, false, 0f, Utils.charCars, colorsLogs));*/
 
             // Crear personaje
             Utils.GAME_STATE gameState = Utils.GAME_STATE.RUNNING;
@@ -46,7 +49,6 @@ namespace M05_UF3_P3_Frogger
 
             while (gameState == Utils.GAME_STATE.RUNNING)
             {
-
                 // Inputs
                 inputDirection = Utils.Input();
                 //player.Update(inputDirection, lineas);
@@ -55,38 +57,31 @@ namespace M05_UF3_P3_Frogger
                     lineas[i].Update();
                 }
 
-
                 // Dibujado
                 for (int i = 0; i < lineas.Count; i++)
                 {
                     lineas[i].Draw();
-                }
-                foreach (Lane lane in lineas)
-                {
-                    if (lane.posY == player.pos.y)
+                    if (lineas[i].posY == player.pos.y)
                     {
-                        player.Draw(lane.background);
-                        break;
+                        player.Draw(lineas[i].background);
                     }
                 }
-                player.Draw();
-                Console.BackgroundColor = ConsoleColor.Black;
 
                 // Lógica
                 gameState = player.Update(inputDirection, lineas);
                 if (gameState == Utils.GAME_STATE.WIN)
                 {
-                    Console.Clear();
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Clear();
                     Console.WriteLine("YOU WON!");
                     System.Threading.Thread.Sleep(500);
                 }
                 if (gameState == Utils.GAME_STATE.LOOSE)
                 {
-                    Console.Clear();
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Clear();
                     Console.WriteLine("YOU LOST!");
                     System.Threading.Thread.Sleep(500);
                 }
