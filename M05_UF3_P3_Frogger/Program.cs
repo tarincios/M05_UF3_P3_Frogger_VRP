@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text
 
 namespace M05_UF3_P3_Frogger
 {
@@ -10,8 +9,6 @@ namespace M05_UF3_P3_Frogger
     {
         static void Main(string[] args)
         {
-            Font fuente = new Font(label1.Font.FontFamily, 20);
-            label1.Font = fuente;
             Console.WindowHeight = (Utils.MAP_HEIGHT)+1;
             Console.WindowWidth = (Utils.MAP_WIDTH);
             Console.CursorVisible = true;
